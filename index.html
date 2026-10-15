@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ملخَّص المحاضرة الثالثة والعشرين — المبتدأ والخبر</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Noto+Naskh+Arabic:wght@400;500;700&family=Reem+Kufi:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --night:#0d1420; --night2:#101a2c; --card:#152238; --card2:#1a2a44;
+  --ivory:#f0e7d3; --muted:#9aa7bd;
+  --gold:#d7a54a; --gold2:#f0c46a;
+  --teal:#5fb8a4; --rose:#e0705f;
+  --line:rgba(215,165,74,.28);
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Noto Naskh Arabic",serif;font-size:1.1rem;line-height:2;color:var(--ivory);
+  background:
+    radial-gradient(circle at 80% 0%, rgba(215,165,74,.08), transparent 45%),
+    radial-gradient(circle at 10% 90%, rgba(95,184,164,.07), transparent 40%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96'%3E%3Cg fill='none' stroke='%23d7a54a' stroke-opacity='.07'%3E%3Crect x='28' y='28' width='40' height='40'/%3E%3Crect x='28' y='28' width='40' height='40' transform='rotate(45 48 48)'/%3E%3C/g%3E%3C/svg%3E"),
+    var(--night);
+}
+body::after{
+  content:"";position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.06;mix-blend-mode:soft-light;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+}
+::selection{background:var(--gold);color:var(--night)}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;background:none;border:none;color:inherit}
+:focus-visible{outline:2px dashed var(--gold);outline-offset:3px;border-radius:2px}
+.wrap{max-width:1100px;margin-inline:auto;padding-inline:1.2rem}
+.disp{font-family:"Lalezar",cursive;font-weight:400}
+.kufi{font-family:"Reem Kufi",sans-serif}
+
+/* الشريط العلوي */
+.topbar{position:fixed;top:0;right:0;left:0;z-index:50;height:58px;background:rgba(13,20,32,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding-inline:1.2rem}
+.brand{display:flex;align-items:center;gap:.7rem;font-family:"Reem Kufi",sans-serif}
+.brand .st{color:var(--gold);font-size:1.2rem;animation:spin 30s linear infinite}
+.brand b{font-size:.92rem}
+.brand small{color:var(--teal);font-size:.78rem;font-weight:600}
+.nav{display:flex;gap:1.3rem;font-family:"Reem Kufi",sans-serif;font-size:.84rem}
+.nav a{position:relative;padding-block:.3rem;color:var(--muted);transition:color .25s}
+.nav a::after{content:"";position:absolute;bottom:0;inset-inline:0;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:right;transition:transform .3s}
+.nav a:hover{color:var(--ivory)} .nav a:hover::after{transform:scaleX(1)}
+.pbar{position:fixed;top:58px;right:0;left:0;height:3px;background:rgba(215,165,74,.15);z-index:50}
+.pbar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold2),var(--teal));transform:scaleX(0);transform-origin:right;transition:transform .1s linear}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* الافتتاح: لوحة الإسناد */
+.hero{padding:112px 0 3rem}
+.kicker{font-family:"Reem Kufi",sans-serif;font-size:.82rem;color:var(--teal);display:flex;align-items:center;gap:.6rem}
+.kicker::after{content:"";flex:0 0 80px;border-bottom:1px solid var(--line)}
+h1{font-family:"Lalezar",cursive;font-weight:400;font-size:clamp(2.2rem,6vw,4rem);line-height:1.5;margin-top:.3rem;color:var(--ivory)}
+h1 span{color:var(--gold)}
+.h1-sub{color:var(--muted);font-size:clamp(1rem,2.3vw,1.25rem)}
+.board{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;padding-top:86px;max-width:660px;margin:2.4rem auto 0}
+.board svg{position:absolute;top:6px;right:0;left:0;width:100%;height:84px;overflow:visible}
+.board path{fill:none;stroke:var(--gold);stroke-width:2;stroke-dasharray:420;stroke-dashoffset:420;animation:draw 1.5s .4s cubic-bezier(.4,0,.2,1) forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.arc-label{position:absolute;top:-6px;inset-inline:0;text-align:center;font-family:"Reem Kufi",sans-serif;font-size:.78rem;color:var(--gold);opacity:0;animation:fadeIn .8s 1.5s forwards}
+@keyframes fadeIn{to{opacity:1}}
+.tok{background:linear-gradient(180deg,var(--card),var(--night2));border:1px solid var(--line);border-top:3px solid var(--gold);border-radius:10px;padding:1.1rem 1rem;text-align:center;transition:opacity .28s,transform .28s;box-shadow:0 22px 40px -28px #000}
+.board.swapping .tok{opacity:0;transform:translateY(12px)}
+.tok-w{display:block;font-size:2.1rem;font-weight:700}
+.tok-t{font-family:"Reem Kufi",sans-serif;font-size:.74rem;color:var(--gold)}
+.tok.k .tok-t{color:var(--teal)} .tok.k{border-top-color:var(--teal)}
+.cycle{display:block;margin:1.4rem auto 0;font-family:"Reem Kufi",sans-serif;font-size:.84rem;border:1px solid var(--gold);color:var(--gold);border-radius:999px;padding:.5rem 1.5rem;transition:.25s}
+.cycle:hover{background:var(--gold);color:var(--night)}
+.board-cap{text-align:center;color:var(--muted);font-size:.98rem;margin-top:1rem}
+.map{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;margin-top:2.2rem}
+.map a{font-family:"Reem Kufi",sans-serif;font-size:.82rem;border:1px solid var(--line);border-radius:999px;padding:.45rem 1.1rem;color:var(--muted);transition:.25s}
+.map a:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-3px)}
+
+/* الأقسام */
+section{position:relative;scroll-margin-top:84px}
+.sec{padding:4rem 0 3.2rem;border-top:1px solid rgba(215,165,74,.2);position:relative;overflow:hidden}
+.wm{position:absolute;top:1.5rem;inset-inline-start:-1.5rem;font-family:"Lalezar",cursive;font-size:12rem;line-height:1;color:rgba(215,165,74,.06);pointer-events:none;user-select:none;z-index:0}
+.sec-head{position:relative;z-index:1}
+.sec-no{display:inline-flex;align-items:center;gap:.6rem;font-family:"Reem Kufi",sans-serif;font-size:.82rem;color:var(--acc,var(--gold))}
+.sec-no i{font-style:normal;width:30px;height:30px;border:1.5px solid currentColor;border-radius:8px;transform:rotate(45deg);display:grid;place-items:center}
+.sec-no i b{transform:rotate(-45deg);font-weight:700}
+.sec h2{font-family:"Lalezar",cursive;font-weight:400;font-size:clamp(1.8rem,4.4vw,2.8rem);line-height:1.5;margin:.2rem 0 .4rem}
+.lm{overflow:hidden}
+.lm>span{display:block;transform:translateY(115%);transition:transform .85s cubic-bezier(.2,.75,.2,1)}
+.lm.on>span{transform:none}
+.lead{position:relative;z-index:1;max-width:860px;border-inline-start:3px solid var(--acc,var(--gold));padding:.6rem 1.2rem;background:rgba(215,165,74,.06);font-size:1.18rem;border-radius:0 6px 6px 0}
+.lead b{color:var(--acc,var(--gold))}
+.rv{opacity:0;transform:translateY(26px);transition:opacity .7s ease var(--d,0s),transform .7s ease var(--d,0s)}
+.rv.on{opacity:1;transform:none}
+
+/* بطاقات واقتباسات */
+.card{background:linear-gradient(180deg,var(--card),var(--night2));border:1px solid var(--line);border-radius:12px;padding:1.4rem 1.5rem;box-shadow:0 24px 44px -30px #000;transition:transform .3s,box-shadow .3s}
+.card:hover{transform:translateY(-4px)}
+.card h3{font-family:"Lalezar",cursive;font-weight:400;font-size:1.5rem;color:var(--gold2)}
+.quote{border-inline-start:3px solid var(--gold);background:rgba(215,165,74,.07);border-radius:0 6px 6px 0;padding:.7rem 1.2rem;font-size:1.35rem;font-weight:700;margin:.9rem 0}
+.quote small{display:block;font-size:.8rem;font-weight:400;color:var(--muted);font-family:"Reem Kufi",sans-serif}
+.ex{font-size:1.3rem;font-weight:700}
+.ex b{color:var(--gold2)}
+.ex .tl{color:var(--teal)}
+.note{border:1px dashed var(--line);border-radius:8px;padding:.6rem 1rem;color:var(--muted);font-size:.98rem;margin-top:.8rem}
+.note b{color:var(--teal)}
+
+/* الأكورديون (المحترزات والأبواب) */
+.acc-btn{display:flex;align-items:center;gap:.7rem;width:100%;text-align:right;border:1px solid var(--line);border-radius:8px;background:rgba(255,255,255,.02);padding:.65rem 1rem;margin-top:.7rem;font-size:1.05rem;font-weight:700;transition:.25s}
+.acc-btn .bn{flex:0 0 28px;height:28px;border:1.5px solid var(--gold);border-radius:50%;display:grid;place-items:center;font-family:"Reem Kufi",sans-serif;font-size:.78rem;color:var(--gold)}
+.acc-btn:hover{border-color:var(--gold)}
+.acc-btn.act{background:rgba(215,165,74,.12);border-color:var(--gold)}
+.acc-btn.act .bn{background:var(--gold);color:var(--night)}
+.fold{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .5s cubic-bezier(.2,.75,.2,1),opacity .4s}
+.fold.open{grid-template-rows:1fr;opacity:1}
+.fold>div{overflow:hidden}
+.fold-in{padding:.9rem 1rem .3rem;color:var(--muted)}
+.fold-in .ex{margin:.3rem 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+
+/* حكم الرفع */
+.raise-banner{display:flex;align-items:center;gap:1rem;justify-content:center;border:1px solid var(--line);border-radius:12px;background:linear-gradient(90deg,rgba(95,184,164,.1),rgba(215,165,74,.1));padding:1rem;margin-top:1.6rem}
+.raise-banner .rb-t{font-family:"Lalezar",cursive;font-size:1.5rem;color:var(--teal)}
+.raise-banner .rb-d{color:var(--muted);font-size:.95rem}
+.damma{font-family:"Lalezar",cursive;font-size:2rem;color:var(--gold);animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+/* سلسلة الروابط */
+.chain-grid{display:grid;grid-template-columns:340px 1fr;gap:1.6rem;align-items:start;margin-top:1.8rem}
+.chain{position:relative;display:flex;flex-direction:column}
+.chain::before{content:"";position:absolute;inset-inline-start:19px;top:26px;bottom:26px;width:2px;background:linear-gradient(var(--line),rgba(215,165,74,.05))}
+.cnode{display:flex;gap:1rem;align-items:center;width:100%;text-align:right;padding:.75rem .2rem;position:relative}
+.cnode .cn{flex:0 0 40px;height:40px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-family:"Reem Kufi",sans-serif;font-size:.9rem;color:var(--gold);background:var(--night2);transition:.25s;z-index:1}
+.cnode .ct{font-size:1.06rem;font-weight:700}
+.cnode:hover .cn{border-color:var(--gold)}
+.cnode.act .cn{border-color:var(--gold);background:var(--gold);color:var(--night);box-shadow:0 0 0 6px rgba(215,165,74,.15)}
+.cnode.act .ct{color:var(--gold2)}
+.rpanel{background:linear-gradient(180deg,var(--card),var(--night2));border:1px solid var(--line);border-radius:12px;padding:1.7rem 1.8rem;position:sticky;top:92px;min-height:280px}
+.rpanel>div{transition:opacity .3s,transform .3s}
+.rpanel.swap>div{opacity:0;transform:translateY(12px)}
+.rpanel h3{font-family:"Lalezar",cursive;font-weight:400;font-size:1.6rem;color:var(--gold2)}
+.rpanel .lbl{font-family:"Reem Kufi",sans-serif;font-size:.76rem;color:var(--teal);display:block;margin:.9rem 0 .1rem}
+
+/* الخلاف في شبه الجملة */
+.camps{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-top:1.6rem}
+.camp{border:1px solid var(--line);border-radius:12px;padding:1.4rem;background:linear-gradient(180deg,var(--card),var(--night2));cursor:pointer;transition:.25s;text-align:right}
+.camp:hover{transform:translateY(-4px)}
+.camp.sel{border-color:var(--cc);box-shadow:0 0 0 3px rgba(255,255,255,.05),0 18px 34px -24px #000}
+.camp h4{font-family:"Lalezar",cursive;font-weight:400;font-size:1.35rem;color:var(--cc)}
+.camp p{color:var(--muted);font-size:.98rem;margin-top:.3rem}
+.taq-box{margin-top:1.4rem;border:1px solid var(--line);border-radius:12px;padding:1.2rem 1.5rem;background:rgba(255,255,255,.02);text-align:center}
+.taq-box .ex{font-size:1.6rem}
+.taq{display:inline-block;font-family:"Lalezar",cursive;font-size:1.7rem;color:var(--gold2);margin-top:.3rem;transition:.2s}
+.taq.pop{animation:tpop .35s}
+@keyframes tpop{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+.hijja{color:var(--muted);font-size:.98rem;margin-top:.6rem}
+.hijja b{color:var(--teal)}
+
+/* الاختبار */
+.quiz-sec{background:linear-gradient(180deg,rgba(215,165,74,.05),transparent)}
+.qcard{background:linear-gradient(180deg,var(--card),var(--night2));border:1px solid var(--line);border-radius:12px;padding:1.4rem 1.5rem;margin-top:1.1rem}
+.q-title{font-size:1.18rem;margin-bottom:.7rem;font-weight:700}
+.q-title em{font-style:normal;font-family:"Reem Kufi",sans-serif;font-size:.78rem;color:var(--night);background:var(--gold);border-radius:6px;padding:.12rem .55rem;margin-inline-end:.5rem}
+.opts{display:grid;gap:.5rem}
+.opt{border:1.5px solid var(--line);border-radius:8px;padding:.5rem 1rem;text-align:right;font-size:1.02rem;background:rgba(255,255,255,.02);transition:.2s;color:var(--ivory)}
+.opt:hover{border-color:var(--gold);transform:translateX(-4px)}
+.opt.sel{border-color:var(--gold);background:rgba(215,165,74,.14);font-weight:700}
+.opt.correct{border-color:var(--teal);background:rgba(95,184,164,.15)}
+.opt.wrong{border-color:var(--rose);background:rgba(224,112,95,.14)}
+.opt:disabled{cursor:default;transform:none}
+.q-note{display:none;margin-top:.6rem;font-size:.95rem;color:var(--teal)}
+.q-note.show{display:block}
+.btn{font-family:"Reem Kufi",sans-serif;font-size:.9rem;background:var(--gold);color:var(--night);border:1px solid var(--gold);border-radius:8px;padding:.6rem 1.7rem;font-weight:700;transition:.25s;margin-top:1.4rem}
+.btn:hover{background:var(--gold2);transform:translateY(-2px)}
+.btn.ghost{background:transparent;color:var(--gold)}
+.score{display:none;margin-top:1.4rem;border:2px solid var(--gold);border-radius:12px;background:rgba(215,165,74,.1);padding:1.3rem 1.6rem}
+.score.show{display:block;animation:pop .5s cubic-bezier(.2,.9,.3,1.4)}
+@keyframes pop{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+.score .num{font-family:"Lalezar",cursive;font-size:2.3rem;color:var(--gold2)}
+.score p{color:var(--muted)}
+
+.orn{display:flex;align-items:center;gap:1.1rem;margin:3rem auto 0;max-width:520px;color:var(--gold)}
+.orn::before,.orn::after{content:"";flex:1;border-bottom:1px solid var(--line)}
+.orn span{font-size:1.5rem}
+footer{background:#0a101b;border-top:1px solid var(--line);margin-top:3rem;padding:3rem 1.2rem;text-align:center}
+footer .f-orn{color:var(--gold);font-size:1.7rem;display:block;margin-bottom:.6rem}
+footer h3{font-family:"Lalezar",cursive;font-weight:400;font-size:clamp(1.4rem,3.5vw,2rem);color:var(--ivory)}
+footer p{color:var(--muted);font-size:.95rem}
+footer small{display:block;margin-top:1rem;color:#6b7689;font-family:"Reem Kufi",sans-serif;font-size:.72rem}
+
+@media(max-width:900px){
+  .nav{display:none}
+  .grid2,.camps,.chain-grid{grid-template-columns:1fr}
+  .rpanel{position:static}
+  .board{gap:.9rem}
+  .tok-w{font-size:1.6rem}
+  .wm{font-size:7rem}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .rv,.lm>span,.arc-label{opacity:1!important;transform:none!important}
+  .board path{stroke-dashoffset:0!important}
+  .fold{grid-template-rows:auto;opacity:1}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand"><span class="st">✦</span><span><b>المحاضرة الثالثة والعشرون</b> <small>• المبتدأ والخبر</small></span></div>
+  <nav class="nav">
+    <a href="#s1">التعريفان</a>
+    <a href="#s2">النكرة</a>
+    <a href="#s3">الرابط</a>
+    <a href="#s4">شبه الجملة</a>
+    <a href="#quiz">اختبر فهمك</a>
+  </nav>
+</header>
+<div class="pbar"><i id="pbar"></i></div>
+
+<!-- لوحة الإسناد -->
+<div class="hero wrap">
+  <p class="kicker rv">قطرُ الندى وبلُّ الصدى • ابنُ هشامٍ الأنصاريّ</p>
+  <h1 class="lm rv"><span>المبتدأُ والخبرُ: <span>عُمودا الجملةِ الاسمية</span></span></h1>
+  <p class="h1-sub rv" style="--d:.12s">مسندٌ إليه ومسندٌ، بينهما حبلُ الإسنادِ تتمُّ به الفائدة</p>
+
+  <div class="board rv" style="--d:.2s" id="board">
+    <span class="arc-label">حبلُ الإسناد</span>
+    <svg viewBox="0 0 400 84" preserveAspectRatio="none" aria-hidden="true"><path d="M40,80 C120,6 280,6 360,80"/></svg>
+    <div class="tok"><span class="tok-w" id="tokM">زيدٌ</span><span class="tok-t">المبتدأ • مرفوع</span></div>
+    <div class="tok k"><span class="tok-w" id="tokK">قائمٌ</span><span class="tok-t">الخبر • مرفوع</span></div>
+  </div>
+  <button class="cycle rv" style="--d:.3s" id="cycleBtn">جملةٌ أخرى ⟲</button>
+  <p class="board-cap rv" style="--d:.35s">الأصلُ في المبتدأ أن يكونَ معرفة، وفي الخبرِ أن يُتمَّ معَه فائدةً تامّة.</p>
+
+  <div class="map rv" style="--d:.4s">
+    <a href="#s1">١ التعريفان والحكم</a>
+    <a href="#s2">٢ الابتداء بالنكرة</a>
+    <a href="#s3">٣ الخبر جملةٌ والرابط</a>
+    <a href="#s4">٤ الخبر شبه جملة</a>
+    <a href="#quiz">٥ اختبار</a>
+  </div>
+</div>
+
+<!-- ============ ١ ============ -->
+<section class="sec" id="s1" style="--acc:var(--gold)">
+  <span class="wm" aria-hidden="true">١</span>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-no rv"><i><b>١</b></i> أولًا</span>
+      <h2 class="lm rv"><span>تعريفُ المبتدأ والخبرِ وحكمُهما</span></h2>
+      <p class="lead rv" style="--d:.1s">المبتدأ والخبر <b>مرفوعان دائمًا</b>؛ والأصلُ في المبتدأ المعرفةُ لأنّ الحكمَ على المجهول لا يفيدُ السامع.</p>
+    </div>
+
+    <div class="grid2" style="margin-top:1.8rem;align-items:start">
+      <div class="card rv">
+        <h3>تعريفُ المبتدأ</h3>
+        <p class="quote">«الاسمُ المجرَّدُ عن العواملِ اللفظيةِ للإسناد»<small>اضغط على كلِّ قيدٍ لفهمِ محترزِه</small></p>
+        <div data-acc>
+          <button class="acc-btn act" data-target="m1" aria-expanded="true"><span class="bn">١</span> «الاسمُ» — جنسُ التعريف</button>
+          <div class="fold open" id="m1"><div><div class="fold-in">
+            يشملُ <b style="color:var(--gold2)">الصريح</b>: <span class="ex"><b>زيدٌ</b> قائمٌ</span>، و<b style="color:var(--gold2)">المؤول بالصريح</b>: <span class="ex">﴿وَأَنْ تَصُومُوا <b>خَيْرٌ</b> لَكُمْ﴾</span> أي: صيامُكم خيرٌ لكم.
+          </div></div></div>
+          <button class="acc-btn" data-target="m2" aria-expanded="false"><span class="bn">٢</span> «المجرَّدُ عن العوامل اللفظية»</button>
+          <div class="fold" id="m2"><div><div class="fold-in">
+            يُخرجُ ما دخل عليه عاملٌ لفظيّ؛ فلا يكونُ «زيدٌ» في <span class="ex">كانَ <b>زيدٌ</b> عالِمًا</span> مبتدأً لدخولِ «كان» عليه.
+          </div></div></div>
+          <button class="acc-btn" data-target="m3" aria-expanded="false"><span class="bn">٣</span> «للإسناد»</button>
+          <div class="fold" id="m3"><div><div class="fold-in">
+            يُخرجُ الأسماءَ المسرودةَ المجرَّدةَ التي لا إسنادَ فيها، نحو: <span class="ex">واحدٌ، اثنانِ، ثلاثةٌ</span>.
+          </div></div></div>
+        </div>
+        <p class="note" style="margin-top:1.1rem"><b>صورتان تحت قيد الإسناد:</b> أن يكون المبتدأ مُسندًا إليه ما بعدَه (الغالب): <span class="ex">زيدٌ قائمٌ</span> — أو وصفًا مُسندًا إلى ما بعدَه رافعًا لظاهرٍ يُغني عن الخبر: <span class="ex">أقائمٌ <span class="tl">الزيدانِ</span></span> (فاعلٌ سدّ مسدّ الخبر).</p>
+      </div>
+
+      <div class="card rv" style="--d:.12s">
+        <h3>تعريفُ الخبر</h3>
+        <p class="quote">«المُسندُ الذي تتمُّ به مع المبتدأِ فائدةٌ»<small>محترزان اثنان</small></p>
+        <div data-acc>
+          <button class="acc-btn act" data-target="k1" aria-expanded="true"><span class="bn">١</span> «المُسندُ»</button>
+          <div class="fold open" id="k1"><div><div class="fold-in">
+            يُخرجُ الفاعلَ في <span class="ex">أقائمٌ <span class="tl">الزيدانِ</span></span>؛ فالفاعلُ تتمُّ به الفائدةُ لكنّه <b style="color:var(--rose)">مسندٌ إليه</b> لا مسند.
+          </div></div></div>
+          <button class="acc-btn" data-target="k2" aria-expanded="false"><span class="bn">٢</span> «مع المبتدأ»</button>
+          <div class="fold" id="k2"><div><div class="fold-in">
+            يُخرجُ الفعلَ في <span class="ex">قامَ <b>زيدٌ</b></span>؛ لأنّه مسندٌ تمّت به الفائدةُ مع الفاعل لا مع المبتدأ.
+          </div></div></div>
+        </div>
+        <div class="raise-banner">
+          <span class="damma">ُ</span>
+          <span class="rb-t">الحكمُ الإعرابي</span>
+          <span class="rb-d">المبتدأ والخبر مرفوعان دائمًا؛ الأصلُ فيهما الرفع.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ٢ ============ -->
+<section class="sec" id="s2" style="--acc:var(--teal)">
+  <span class="wm" aria-hidden="true">٢</span>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-no rv"><i><b>٢</b></i> ثانيًا</span>
+      <h2 class="lm rv"><span>مسوِّغاتُ الابتداءِ بالنكرة</span></h2>
+      <p class="lead rv" style="--d:.1s">الأصلُ أن يكون المبتدأ معرفة؛ ويجوزُ الابتداءُ بالنكرة <b>إذا أفادت</b>، والإفادةُ تنحصرُ في بوابتين: <b>العموم</b> و<b>الخصوص</b>.</p>
+    </div>
+
+    <div class="grid2" style="margin-top:1.8rem;align-items:start">
+      <div class="card rv">
+        <h3 style="color:var(--teal)">بوابةُ العموم</h3>
+        <p style="color:var(--muted);font-size:.98rem">تفيدُ النكرةُ العمومَ إذا وقعت في سياق:</p>
+        <div data-acc>
+          <button class="acc-btn act" data-target="n1" aria-expanded="true"><span class="bn">١</span> سياقُ النفي</button>
+          <div class="fold open" id="n1"><div><div class="fold-in"><span class="ex">ما <b>رجلٌ</b> في الدار</span><p style="margin-top:.3rem">النفي عمّمَ الحكمَ على كلِّ رجل.</p></div></div></div>
+          <button class="acc-btn" data-target="n2" aria-expanded="false"><span class="bn">٢</span> سياقُ الاستفهام</button>
+          <div class="fold" id="n2"><div><div class="fold-in"><span class="ex">﴿أَإِلَهٌ مَعَ اللَّهِ﴾</span><p style="margin-top:.3rem">الاستفهامُ عمّمَ النكرةَ فأفادت.</p></div></div></div>
+        </div>
+      </div>
+      <div class="card rv" style="--d:.12s">
+        <h3 style="color:var(--teal)">بوابةُ الخصوص</h3>
+        <p style="color:var(--muted);font-size:.98rem">تختصُّ النكرةُ بأحدِ أمرين:</p>
+        <div data-acc>
+          <button class="acc-btn act" data-target="n3" aria-expanded="true"><span class="bn">١</span> الوصف</button>
+          <div class="fold open" id="n3"><div><div class="fold-in"><span class="ex">﴿وَلَعَبْدٌ <span class="tl">مُؤْمِنٌ</span> خَيْرٌ مِنْ مُشْرِكٍ﴾</span><p style="margin-top:.3rem">خُصّ «عبدٌ» بوصفِه «مؤمنٌ».</p></div></div></div>
+          <button class="acc-btn" data-target="n4" aria-expanded="false"><span class="bn">٢</span> الإضافة</button>
+          <div class="fold" id="n4"><div><div class="fold-in"><span class="ex">«خَمْسُ <span class="tl">صَلَوَاتٍ</span> كَتَبَهُنَّ اللَّهُ فِي الْيَوْمِ وَاللَّيْلَةِ»</span><p style="margin-top:.3rem">خُصّ «خمسُ» بإضافتِه إلى «صلواتٍ».</p></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <p class="note rv" style="margin-top:1.4rem;max-width:860px"><b>ملاحظةُ النحاة:</b> فصّل بعضُ المتأخرين مسوِّغاتِ الابتداء بالنكرة حتى بلغت <b style="color:var(--gold2)">نيفًا وثلاثين موضعًا</b>، إلا أنّها جميعًا تعودُ إلى قاعدتي الخصوصِ والعموم.</p>
+  </div>
+</section>
+
+<!-- ============ ٣ ============ -->
+<section class="sec" id="s3" style="--acc:var(--gold2)">
+  <span class="wm" aria-hidden="true">٣</span>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-no rv"><i><b>٣</b></i> ثالثًا</span>
+      <h2 class="lm rv"><span>الخبرُ جملةٌ واشتراطُ الرابط</span></h2>
+      <p class="lead rv" style="--d:.1s">إذا وقع الخبرُ جملةً (اسميةً أو فعلية) <b>وجب اشتمالُها على رابط</b> يربطُها بالمبتدأ، والرابطُ أربعةُ أمور.</p>
+    </div>
+
+    <div class="chain-grid">
+      <div class="chain rv" id="chain">
+        <button class="cnode act" data-link="damir"><span class="cn">١</span><span class="ct">الضمير — وهو الأصل</span></button>
+        <button class="cnode" data-link="ishara"><span class="cn">٢</span><span class="ct">اسمُ الإشارة</span></button>
+        <button class="cnode" data-link="iada"><span class="cn">٣</span><span class="ct">إعادةُ المبتدأ بلفظه</span></button>
+        <button class="cnode" data-link="umum"><span class="cn">٤</span><span class="ct">العمومُ الداخلُ تحته المبتدأ</span></button>
+      </div>
+      <div class="rpanel rv" style="--d:.1s" id="rpanel" aria-live="polite">
+        <div id="rBody"></div>
+      </div>
+    </div>
+
+    <div class="card rv" style="margin-top:1.6rem;border-color:rgba(224,112,95,.4)">
+      <h3 style="color:var(--rose)">استثناءٌ من طلبِ الرابط</h3>
+      <p style="color:var(--muted);margin-top:.4rem">إذا كانت جملةُ الخبرِ هي المبتدأُ نفسُه في المعنى لم تحتج إلى رابط؛ لأنّها <b style="color:var(--rose)">تفسيرٌ له</b>:</p>
+      <p class="ex" style="margin-top:.6rem">﴿قُلْ هُوَ اللَّهُ أَحَدٌ﴾ <span style="color:var(--muted);font-size:.95rem">(«هو» ضميرُ الشأن، وجملةُ «اللهُ أحدٌ» هي عينُ الشأن في المعنى)</span></p>
+      <p class="ex" style="margin-top:.4rem">«أَفْضَلُ مَا قُلْتُ أَنَا وَالنَّبِيُّونَ مِنْ قَبْلِي: <b>لَا إِلَهَ إِلَّا اللَّهُ</b>»</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ٤ ============ -->
+<section class="sec" id="s4" style="--acc:var(--teal)">
+  <span class="wm" aria-hidden="true">٤</span>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-no rv"><i><b>٤</b></i> رابعًا</span>
+      <h2 class="lm rv"><span>الخبرُ شبه جملة</span></h2>
+      <p class="lead rv" style="--d:.1s">يقع الخبرُ <b>ظرفًا منصوبًا</b> أو <b>جارًّا ومجرورًا</b>، وشبه الجملة ليس خبرًا بنفسه بل متعلّقٌ بمحذوفٍ وجوبًا.</p>
+    </div>
+
+    <div class="grid2" style="margin-top:1.8rem">
+      <div class="card rv">
+        <h3 style="color:var(--teal)">ظرفٌ منصوب</h3>
+        <p class="ex" style="margin-top:.5rem">﴿وَالرَّكْبُ <b>أَسْفَلَ</b> مِنْكُمْ﴾</p>
+        <p class="note">«أسفلَ» ظرفٌ منصوبٌ وقع خبرًا عن «الركبُ».</p>
+      </div>
+      <div class="card rv" style="--d:.12s">
+        <h3 style="color:var(--teal)">جارٌّ ومجرور</h3>
+        <p class="ex" style="margin-top:.5rem">﴿الْحَمْدُ <b>لِلَّهِ</b> رَبِّ الْعَالَمِينَ﴾</p>
+        <p class="note">«للهِ» جارٌّ ومجرورٌ وقع خبرًا عن «الحمدُ».</p>
+      </div>
+    </div>
+
+    <h3 class="disp rv" style="margin-top:2.4rem;font-size:1.6rem;color:var(--gold2)">تعلُّقُ شبه الجملةِ والخلافُ فيه</h3>
+    <p class="rv" style="color:var(--muted)">المحذوفُ قبل شبه الجملة إمّا <b style="color:var(--gold2)">اسمٌ مفرد</b> أو <b style="color:var(--teal)">فعل</b> — اختر مذهبًا لترى تقديرَه وحجّتَه:</p>
+
+    <div class="camps rv" style="--d:.1s">
+      <button class="camp sel" data-camp="basra" style="--cc:var(--gold)"><h4>جمهورُ البصريين</h4><p>المحذوفُ اسمٌ مفردٌ تقديره: <b style="color:var(--gold)">مستَقِرٌّ</b>.</p></button>
+      <button class="camp" data-camp="akhfash" style="--cc:var(--teal)"><h4>الأخفشُ والفارسيُّ والزمخشري</h4><p>المحذوفُ فعلٌ تقديره: <b style="color:var(--teal)">استَقَرَّ</b>.</p></button>
+    </div>
+
+    <div class="taq-box rv" style="--d:.15s">
+      <p class="ex">﴿وَالرَّكْبُ أَسْفَلَ مِنْكُمْ﴾ ← التقدير:</p>
+      <span class="taq" id="taqdir">مستَقِرٌّ</span>
+      <p class="hijja" id="hijja"><b>الحجّة:</b> المحذوفُ هو الخبرُ في الحقيقة، والأصلُ في الأخبار أن تكون أسماءً مفردة.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ الاختبار ============ -->
+<section class="sec quiz-sec" id="quiz" style="--acc:var(--gold)">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-no rv"><i><b>٥</b></i> خاتمة</span>
+      <h2 class="lm rv"><span>اختبر فهمَك</span></h2>
+      <p class="lead rv" style="--d:.1s">اثنتا عشرةَ مسألةً تغطي المحاضرةَ كاملة؛ اختر ثم <b>صحِّح دفترك</b>.</p>
+    </div>
+    <div id="quizBox"></div>
+    <button class="btn" id="gradeBtn">صحِّح دفتري</button>
+    <button class="btn ghost" id="retryBtn" style="display:none">أعد المحاولة</button>
+    <div class="score" id="scoreBox">
+      <span class="num" id="scoreNum"></span>
+      <p id="scoreMsg"></p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="f-orn">✦ ❖ ✦</span>
+  <h3>تمَّ تلخيصُ المحاضرةِ الثالثةِ والعشرين</h3>
+  <p>بابُ المبتدأ والخبر — من كتابِ قطرِ الندى وبلِّ الصدى لابنِ هشام</p>
+  <small>صفحةٌ دراسيّةٌ لطلابِ العلم</small>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function $(s,c){return (c||document).querySelector(s);}
+function $$(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s));}
+function arNum(n){return String(n).replace(/\d/g,function(d){return "٠١٢٣٤٥٦٧٨٩"[d];});}
+
+var bar=$("#pbar");
+window.addEventListener("scroll",function(){
+  var h=document.documentElement;
+  bar.style.transform="scaleX("+(h.scrollTop/((h.scrollHeight-h.clientHeight)||1))+")";
+},{passive:true});
+
+var toReveal=$$(".rv,.lm");
+if(reduced){toReveal.forEach(function(el){el.classList.add("on");});}
+else{
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("on");io.unobserve(e.target);}});
+  },{threshold:.15});
+  toReveal.forEach(function(el){io.observe(el);});
+}
+
+$$('a[href^="#"]').forEach(function(a){
+  a.addEventListener("click",function(e){
+    var t=document.getElementById(a.getAttribute("href").slice(1));
+    if(!t)return;
+    e.preventDefault();
+    t.scrollIntoView({behavior:reduced?"auto":"smooth",block:"start"});
+    try{history.replaceState(null,"","#"+a.getAttribute("href").slice(1));}catch(err){}
+  });
+});
+
+/* الأكورديون */
+$$("[data-acc]").forEach(function(group){
+  var btns=$$(".acc-btn",group);
+  btns.forEach(function(b){
+    b.addEventListener("click",function(){
+      var wasOpen=b.getAttribute("aria-expanded")==="true";
+      btns.forEach(function(x){
+        x.setAttribute("aria-expanded","false");x.classList.remove("act");
+        var f=document.getElementById(x.dataset.target);if(f)f.classList.remove("open");
+      });
+      if(!wasOpen){
+        b.setAttribute("aria-expanded","true");b.classList.add("act");
+        var f=document.getElementById(b.dataset.target);if(f)f.classList.add("open");
+      }
+    });
+  });
+});
+
+/* جملة أخرى */
+var SENTS=[["زيدٌ","قائمٌ"],["العلمُ","نورٌ"],["الحديقةُ","واسعةٌ"],["كتابُكَ","مفيدٌ"],["الصدقُ","منجاةٌ"]];
+var si=0,board=$("#board"),tokM=$("#tokM"),tokK=$("#tokK");
+$("#cycleBtn").addEventListener("click",function(){
+  si=(si+1)%SENTS.length;
+  if(reduced){tokM.textContent=SENTS[si][0];tokK.textContent=SENTS[si][1];return;}
+  board.classList.add("swapping");
+  setTimeout(function(){
+    tokM.textContent=SENTS[si][0];tokK.textContent=SENTS[si][1];
+    board.classList.remove("swapping");
+  },280);
+});
+
+/* سلسلة الروابط */
+var LINKS={
+  damir:{t:"الضمير — وهو الأصل",d:"بارزًا أو مستترًا.",ex:"زيدٌ <b>أبوه</b> قائمٌ • زيدٌ <b>قام</b>",note:"في الأول الهاءُ ضميرٌ بارز، وفي الثاني الضميرُ المستترُ هو الرابط."},
+  ishara:{t:"اسمُ الإشارة",d:"يربطُ جملةَ الخبرِ بالمبتدأ.",ex:"﴿وَلِبَاسُ التَّقْوَى <b>ذَلِكَ</b> خَيْرٌ﴾",note:"المبتدأ «لباسُ»، والرابطُ داخلَ الجملة الخبرية اسمُ الإشارة «ذلك»."},
+  iada:{t:"إعادةُ المبتدأ بلفظه",d:"يُكرَّر لفظُ المبتدأ داخلَ جملة الخبر.",ex:"﴿الْحَاقَّةُ * مَا <b>الْحَاقَّةُ</b>﴾",note:"الرابطُ هنا تكرارُ لفظ «الحاقة»."},
+  umum:{t:"العمومُ الداخلُ تحته المبتدأ",d:"يشتمل الخبرُ على عمومٍ يدخل المبتدأ تحته.",ex:"زيدٌ نِعْمَ <b>الرجلُ</b>",note:"الرابطُ العمومُ المستفاد من «أل» الجنسية في «الرجل»، وزيدٌ فردٌ من أفراده."}
+};
+var rBody=$("#rBody"),rpanel=$("#rpanel");
+function renderLink(k){
+  var d=LINKS[k];
+  var html='<h3>'+d.t+'</h3><p style="color:var(--muted);margin-top:.3rem">'+d.d+'</p>'
+    +'<span class="lbl">المثال</span><p class="ex">'+d.ex+'</p>'
+    +'<span class="lbl">بيانُ الرابط</span><p style="color:var(--ivory)">'+d.note+'</p>';
+  if(reduced){rBody.innerHTML=html;return;}
+  rpanel.classList.add("swap");
+  setTimeout(function(){rBody.innerHTML=html;rpanel.classList.remove("swap");},280);
+}
+$$(".cnode").forEach(function(n){
+  n.addEventListener("click",function(){
+    $$(".cnode").forEach(function(x){x.classList.remove("act");});
+    n.classList.add("act");renderLink(n.dataset.link);
+  });
+});
+renderLink("damir");
+
+/* الخلاف في التقدير */
+var CAMPS={
+  basra:{t:"مستَقِرٌّ (اسمٌ مفرد)",h:"المحذوفُ هو الخبرُ في الحقيقة، والأصلُ في الأخبار أن تكون أسماءً مفردة."},
+  akhfash:{t:"استَقَرَّ (فعل)",h:"المحذوفُ عَمِلَ النصبَ في لفظ الظرف ومحلَّ الجار والمجرور، والأصلُ في العوامل أن تكون أفعالًا."}
+};
+var taq=$("#taqdir"),hijja=$("#hijja");
+$$(".camp").forEach(function(c){
+  c.addEventListener("click",function(){
+    $$(".camp").forEach(function(x){x.classList.remove("sel");});
+    c.classList.add("sel");
+    var d=CAMPS[c.dataset.camp];
+    taq.textContent=d.t;hijja.innerHTML="<b>الحجّة:</b> "+d.h;
+    if(!reduced){taq.classList.remove("pop");void taq.offsetWidth;taq.classList.add("pop");}
+  });
+});
+
+/* الاختبار */
+var QUIZ=[
+ {q:"تعريفُ المبتدأ عند ابن هشام:",o:["الاسمُ المرفوعُ دائمًا","الاسمُ المجرَّدُ عن العوامل اللفظية للإسناد","المسندُ الذي تتمُّ به الفائدة","الاسمُ المسندُ إليه فقط"],a:1},
+ {q:"المبتدأ في ﴿وَأَنْ تَصُومُوا خَيْرٌ لَكُمْ﴾:",o:["صريح","مؤولٌ بالصريح تقديره صيامُكم","ضميرٌ مستتر","شبه جملة"],a:1},
+ {q:"الأسماءُ المسرودة «واحدٌ اثنان ثلاثةٌ» تخرجُ من حدِّ المبتدأ بقيد:",o:["الاسم","المجرَّد عن العوامل اللفظية","للإسناد","المرفوع"],a:2},
+ {q:"«كان زيدٌ عالِمًا» لا يصحُّ أن يكون «زيدٌ» مبتدأً لأنّه:",o:["نكرة","لم يتجرّد عن العامل اللفظي","ليس مسندًا إليه","مجرور"],a:1},
+ {q:"إعرابُ «الزيدانِ» في «أقائمٌ الزيدانِ»:",o:["مبتدأ مؤخر","خبر","فاعلٌ سدّ مسدّ الخبر","مضافٌ إليه"],a:2},
+ {q:"«قامَ زيدٌ» يخرجُ الفعلُ من حدِّ الخبر بقيد:",o:["المسند","مع المبتدأ","التامّ","المرفوع"],a:1},
+ {q:"تفيدُ النكرةُ العمومَ إذا وقعت في سياق:",o:["الوصف والإضافة","النفي والاستفهام","الإضافة فقط","النهي فقط"],a:1},
+ {q:"المسوِّغُ في ﴿وَلَعَبْدٌ مُؤْمِنٌ خَيْرٌ مِنْ مُشْرِكٍ﴾:",o:["الخصوصُ بالوصف","العمومُ بالنفي","الخصوصُ بالإضافة","العمومُ بالاستفهام"],a:0},
+ {q:"«خمسُ صلواتٍ» في الحديث خُصّت بـ:",o:["الوصف","الإضافة","النفي","الاستفهام"],a:1},
+ {q:"الرابطُ في ﴿الْحَاقَّةُ * مَا الْحَاقَّةُ﴾:",o:["ضميرٌ بارز","اسمُ إشارة","إعادةُ المبتدأ بلفظه","العموم"],a:2},
+ {q:"جملةُ الخبر في ﴿قُلْ هُوَ اللَّهُ أَحَدٌ﴾ لم تحتج إلى رابط لأنّها:",o:["جملةٌ فعلية","هي المبتدأ نفسُه في المعنى فتفسِّرُه","مسبوقةٌ بضمير","مقترنةٌ بأل"],a:1},
+ {q:"عند جمهور البصريين المحذوفُ قبل شبه الجملة تقديره:",o:["استقرَّ فعلًا","مستقرٌّ اسمًا مفردًا","كائنٌ خبرًا","لا يُقدَّر محذوف"],a:1}
+];
+var answers=[],graded=false;
+var box=$("#quizBox"),gradeBtn=$("#gradeBtn"),retryBtn=$("#retryBtn"),scoreBox=$("#scoreBox");
+function buildQuiz(){
+  answers=QUIZ.map(function(){return -1;});graded=false;
+  scoreBox.classList.remove("show");gradeBtn.style.display="inline-block";retryBtn.style.display="none";
+  box.innerHTML="";
+  QUIZ.forEach(function(q,qi){
+    var card=document.createElement("div");card.className="qcard rv on";
+    var t=document.createElement("h4");t.className="q-title";
+    t.innerHTML="<em>"+arNum(qi+1)+"</em>"+q.q;card.appendChild(t);
+    var opts=document.createElement("div");opts.className="opts";
+    q.o.forEach(function(op,oi){
+      var b=document.createElement("button");b.className="opt";b.textContent=op;
+      b.addEventListener("click",function(){
+        if(graded)return;
+        answers[qi]=oi;
+        $$(".opt",opts).forEach(function(x){x.classList.remove("sel");});
+        b.classList.add("sel");
+      });
+      opts.appendChild(b);
+    });
+    card.appendChild(opts);
+    var note=document.createElement("p");note.className="q-note";card.appendChild(note);
+    box.appendChild(card);
+  });
+}
+gradeBtn.addEventListener("click",function(){
+  if(graded)return;graded=true;
+  var score=0;
+  QUIZ.forEach(function(q,qi){
+    var card=box.children[qi],opts=$$(".opt",card),note=$(".q-note",card);
+    opts.forEach(function(x){x.disabled=true;});
+    opts[q.a].classList.add("correct");
+    if(answers[qi]===q.a){score++;}
+    else{
+      if(answers[qi]>=0)opts[answers[qi]].classList.add("wrong");
+      note.textContent="الإجابةُ الصحيحة: "+q.o[q.a];note.classList.add("show");
+    }
+  });
+  gradeBtn.style.display="none";retryBtn.style.display="inline-block";
+  $("#scoreNum").textContent="نتيجتُك: "+arNum(score)+" / "+arNum(QUIZ.length);
+  var msg=score===12?"إتقانٌ تامّ! أمسكتَ بعُمودَي الجملة الاسمية."
+    :score>=10?"ممتاز! راجع ما فاتك تُكمِلِ الإتقان."
+    :score>=6?"جيّد — أعد قراءةَ الملخَّص ثم عُد للاختبار."
+    :"لا تثريبَ عليك؛ راجع الملخَّص وأَعِد المحاولة.";
+  $("#scoreMsg").textContent=msg;
+  scoreBox.classList.add("show");
+});
+retryBtn.addEventListener("click",buildQuiz);
+buildQuiz();
+})();
+</script>
+</body>
+</html>
